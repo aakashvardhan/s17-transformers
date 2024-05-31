@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 
 
-class PositionalEmbedding(nn.Module):
+class PositionalEncoding(nn.Module):
     """
     Positional embedding module for adding positional information to the input tensor.
 

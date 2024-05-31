@@ -3,10 +3,10 @@ import torch
 import torch.nn as nn
 
 
-class InputEmbedding(nn.Module):
+class InputEmbeddings(nn.Module):
     def __init__(self, d_model: int, vocab_size: int) -> None:
         """
-        Initialize the InputEmbedding module.
+        Initialize the InputEmbeddings module.
 
         Args:
             d_model (int): The dimensionality of the embedding.
@@ -20,7 +20,7 @@ class InputEmbedding(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
-        Perform the forward pass of the InputEmbedding module.
+        Perform the forward pass of the InputEmbeddings module.
 
         Args:
             x (torch.Tensor): The input tensor of shape (batch_size, sequence_length).
