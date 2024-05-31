@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import lightning as L
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader, random_split
 from pathlib import Path
@@ -9,6 +10,8 @@ from tokenizers import Tokenizer
 from tokenizers.models import WordLevel
 from tokenizers.trainers import WordLevelTrainer
 from tokenizers.pre_tokenizers import Whitespace
+
+from train import get_all_sentenses, get_or_build_tokenizer, get_ds
 
 class BillingualDataset(Dataset):
     def __init__(self, ds, tokenizer_src, tokenizer_tgt, src_lang, tgt_lang, seq_len):
@@ -96,4 +99,33 @@ def casual_mask(size):
     return mask == 0
 
 
+class LT_DataModule(L.LightningDataModule):
+    """
+    LightningDataModule for handling data loading and processing in the LT_DataModule class.
+    """
+
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+        
+    def setup(self, stage=None):
+        self.train_dataloader, self.val_dataloader, self.tokenizer_src, self.tokenizer_tgt = get_ds(self.config)
+        
+        self.config['src_vocab_size'] = self.tokenizer_src.get_vocab_size()
+        self.config['tgt_vocab_size'] = self.tokenizer_tgt.get_vocab_size()
+        
+    def train_dataloader(self):
+        return self.train_dataloader
     
+    def val_dataloader(self):
+        return self.val_dataloader
+    
+    def get_tokenizers(self):
+        """
+        Returns the source and target tokenizers used in the dataset.
+        
+        Returns:
+            tokenizer_src (object): The tokenizer used for the source language.
+            tokenizer_tgt (object): The tokenizer used for the target language.
+        """
+        return self.tokenizer_src, self.tokenizer_tgt
