@@ -16,6 +16,7 @@ from models.decoder_block import Decoder
 from models.pos_embed import PositionalEncoding
 from models.input_embed import InputEmbeddings
 
+import lightning as L
 
 class ProjectionLayer(nn.Module):
     """

@@ -1,0 +1,5 @@
+tokenizers
+torchtext
+lightning
+datasets
+tensorboard
