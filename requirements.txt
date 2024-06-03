@@ -1,6 +1,6 @@
 tokenizers
-torchtext
 lightning
 datasets
 tensorboard
 torchmetrics
+pathlib
