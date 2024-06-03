@@ -15,8 +15,6 @@ class LT_model(L.LightningModule):
 
     Args:
         config (dict): Configuration parameters for the model.
-        src_vocab_size (int): Size of the source vocabulary.
-        tgt_vocab_size (int): Size of the target vocabulary.
         tokenizer_src (Tokenizer): Source tokenizer.
         tokenizer_tgt (Tokenizer): Target tokenizer.
     """
