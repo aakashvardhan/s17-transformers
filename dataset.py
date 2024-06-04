@@ -236,20 +236,13 @@ class LT_DataModule(L.LightningDataModule):
     def __init__(self, config):
         super().__init__()
         self.config = config
-        self.train_dataloader = None
-        self.val_dataloader = None
-        self.tokenizer_src = None
-        self.tokenizer_tgt = None
 
-    def setup(self, stage=None):
-        
-        if stage == "fit" or stage is None:
-            self.train_dataloader, self.val_dataloader, self.tokenizer_src, self.tokenizer_tgt = get_ds(
+        self.train_dataloader, self.val_dataloader, self.tokenizer_src, self.tokenizer_tgt = get_ds(
                 self.config
-            )
+        )
 
-            self.config["src_vocab_size"] = self.tokenizer_src.get_vocab_size()
-            self.config["tgt_vocab_size"] = self.tokenizer_tgt.get_vocab_size()
+        self.config["src_vocab_size"] = self.tokenizer_src.get_vocab_size()
+        self.config["tgt_vocab_size"] = self.tokenizer_tgt.get_vocab_size()
 
     def train_dataloader(self):
         """

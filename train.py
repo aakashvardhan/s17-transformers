@@ -52,7 +52,6 @@ def main(cfg, ckpt_file=None, if_ckpt=False):
 
     # Initialize the data module
     datamodule = LT_DataModule(cfg)
-    datamodule.setup()
     tok_src, tok_tgt = datamodule.get_tokenizers()
     print("DataModule initialized...")
 
