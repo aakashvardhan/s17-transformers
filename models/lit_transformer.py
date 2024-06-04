@@ -168,9 +168,9 @@ class LT_model(L.LightningModule):
         predicted.append(model_out_text)
 
         # Compute validation metrics
-        cer = self.cer_metric([predicted], [expected])
-        wer = self.wer_metric([predicted], [expected])
-        bleu = self.bleu_metric([predicted], [expected])
+        cer = self.cer_metric(predicted, expected)
+        wer = self.wer_metric(predicted, [expected])
+        bleu = self.bleu_metric(predicted, expected)
 
         print("SOURCE: ", source_texts)
         print("-" * 80)
