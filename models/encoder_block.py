@@ -2,7 +2,7 @@ import math
 import torch
 import torch.nn as nn
 
-from models.layer_norm import LayerNorm
+from models.layer_norm import LayerNormalization
 from models.attention_block import MultiHeadAttentionBlock
 from models.feed_forward import FeedForwardBlock
 from models.res_block import ResidualConnection

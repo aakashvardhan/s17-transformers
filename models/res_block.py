@@ -1,7 +1,7 @@
 import math
 import torch
 import torch.nn as nn
-from models.layer_norm import LayerNorm
+from models.layer_norm import LayerNormalization
 
 
 class ResidualConnection(nn.Module):

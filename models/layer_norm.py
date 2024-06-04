@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 
 
-class LayerNorm(nn.Module):
+class LayerNormalization(nn.Module):
     def __init__(self, eps:float=10**-6) -> None:
         super().__init__()
         self.eps = eps
