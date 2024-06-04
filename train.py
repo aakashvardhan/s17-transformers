@@ -37,7 +37,7 @@ config = get_config()
 
 
 
-def main(cfg, ckpt_file, if_ckpt=False):
+def main(cfg, ckpt_file=None, if_ckpt=False):
     """
     Main function for training and evaluating a model.
 
