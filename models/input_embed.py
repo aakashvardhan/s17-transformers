@@ -4,29 +4,14 @@ import torch.nn as nn
 
 
 class InputEmbeddings(nn.Module):
+
     def __init__(self, d_model: int, vocab_size: int) -> None:
-        """
-        Initialize the InputEmbeddings module.
-
-        Args:
-            d_model (int): The dimensionality of the embedding.
-            vocab_size (int): The size of the vocabulary.
-
-        """
         super().__init__()
         self.d_model = d_model
         self.vocab_size = vocab_size
-        self.embedding = nn.Embedding(vocab_size, d_model)  # randomly initialized
+        self.embedding = nn.Embedding(vocab_size, d_model)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """
-        Perform the forward pass of the InputEmbeddings module.
-
-        Args:
-            x (torch.Tensor): The input tensor of shape (batch_size, sequence_length).
-
-        Returns:
-            torch.Tensor: The embedded input tensor of shape (batch_size, sequence_length, d_model).
-
-        """
+    def forward(self, x):
+        # (batch, seq_len) --> (batch, seq_len, d_model)
+        # Multiply by sqrt(d_model) to scale the embeddings according to the paper
         return self.embedding(x) * math.sqrt(self.d_model)
