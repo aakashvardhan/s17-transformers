@@ -52,11 +52,16 @@ def main(cfg, ckpt_file=None, if_ckpt=False):
 
     # Initialize the data module
     datamodule = LT_DataModule(cfg)
-    tok_src, tok_tgt = datamodule.get_tokenizers()
+    tk_src = datamodule.tokenizer_src  # Assuming datamodule is your instance of BilingualDataModule
+    tk_tgt = datamodule.tokenizer_tgt
+
+    src_vocab_size = tk_src.get_vocab_size()
+    tgt_vocab_size = tk_tgt.get_vocab_size()
+
     print("DataModule initialized...")
 
     # Initialize the model
-    model = LT_model(cfg, tok_src, tok_tgt)
+    model = LT_model(cfg, tk_src, tk_tgt)
 
     # Tensorboard logger
     tb_logger = TensorBoardLogger(

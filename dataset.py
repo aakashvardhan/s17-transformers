@@ -237,21 +237,51 @@ class LT_DataModule(L.LightningDataModule):
         super().__init__()
         self.config = config
 
-        self.train_dataloader, self.val_dataloader, self.tokenizer_src, self.tokenizer_tgt = get_ds(
-                self.config
-        )
+    def setup(self, stage=None):
+        
+        if stage == "fit" or stage is None:
+            ds_raw = load_dataset(
+            "opus_books", f"{self.config['lang_src']}-{self.config['lang_tgt']}", split="train"
+            )
 
-        self.config["src_vocab_size"] = self.tokenizer_src.get_vocab_size()
-        self.config["tgt_vocab_size"] = self.tokenizer_tgt.get_vocab_size()
+            src_lang = self.config["lang_src"]
+            tgt_lang = self.config["lang_tgt"]
+            seq_len = self.config["seq_len"]
+
+            self.tokenizer_src = get_or_build_tokenizer(self.config, ds_raw, src_lang)
+            self.tokenizer_tgt = get_or_build_tokenizer(self.config, ds_raw, tgt_lang)
+
+            train_ds_size = int(0.9 * len(ds_raw))
+            val_ds_size = len(ds_raw) - train_ds_size
+            train_ds_raw, val_ds_raw = random_split(ds_raw, [train_ds_size, val_ds_size])
+
+            self.train_ds = BillingualDataset(
+                train_ds_raw, self.tokenizer_src, self.tokenizer_tgt, src_lang, tgt_lang, seq_len
+            )
+            self.val_ds = BillingualDataset(
+                val_ds_raw, self.tokenizer_src, self.tokenizer_tgt, src_lang, tgt_lang, seq_len
+            )
+
+            max_len_src = 0
+            max_len_tgt = 0
+
+            for item in ds_raw:
+                src_ids = self.tokenizer_src.encode(item["translation"][src_lang]).ids
+                tgt_ids = self.tokenizer_tgt.encode(item["translation"][tgt_lang]).ids
+                max_len_src = max(max_len_src, len(src_ids))
+                max_len_tgt = max(max_len_tgt, len(tgt_ids))
+
+            print(f"Max length of the source sentence : {max_len_src}")
+            print(f"Max length of the source target : {max_len_tgt}")
 
     def train_dataloader(self):
         """
         This function is likely intended to create a data loader for training a machine learning model.
         """
-        return self.train_dataloader
+        return DataLoader(self.train_ds, batch_size=self.config["batch_size"], shuffle=True)
 
     def val_dataloader(self):
-        return self.val_dataloader
+        return DataLoader(self.val_ds, batch_size=1, shuffle=True)
 
     def get_tokenizers(self):
         """
