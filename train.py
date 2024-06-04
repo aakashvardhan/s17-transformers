@@ -46,12 +46,13 @@ def main(cfg, ckpt_file=None, if_ckpt=False):
         ckpt_file (str): Path to the checkpoint file.
         if_ckpt (bool, optional): Whether to load the model from a checkpoint. Defaults to False.
     """
-
+    torch.cuda.empty_cache()
     L.seed_everything(42, workers=True)
     print("Seed set to 42...")
 
     # Initialize the data module
     datamodule = LT_DataModule(cfg)
+    datamodule.setup()
     tk_src = datamodule.tokenizer_src  # Assuming datamodule is your instance of BilingualDataModule
     tk_tgt = datamodule.tokenizer_tgt
 
