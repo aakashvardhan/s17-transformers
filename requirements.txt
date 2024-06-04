@@ -1,6 +1,4 @@
+datasets
 tokenizers
 lightning
-datasets
-tensorboard
 torchmetrics
-pathlib
