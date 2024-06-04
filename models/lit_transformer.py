@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torchmetrics
 from transformer import ProjectionLayer, Transformer, build_transformer
-
+from dataset import casual_mask
 
 def greedy_decode(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_len):
 
