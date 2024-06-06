@@ -105,7 +105,7 @@ def main(cfg, ckpt_file=None, if_ckpt=False):
     else:
         trainer.fit(model=model, datamodule=datamodule)
 
-    trainer.test(model=model, datamodule=datamodule)
+    trainer.validate(model=model, datamodule=datamodule)
     print("Model Evaluation Done...")
 
     # Save the model
